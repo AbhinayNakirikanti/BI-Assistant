@@ -3,6 +3,7 @@
 # 📊 Enterprise BI Assistant
 ### Autonomous Data Profiling, Interactive Analytics & Domain-Aware AI Intelligence
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://bi-assistant-app.streamlit.app/)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.38%2B-FF4B4B.svg?logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![Google Gemini](https://img.shields.io/badge/Google%20Gemini-Powered-4285F4.svg?logo=google&logoColor=white)](https://aistudio.google.com/)
@@ -12,6 +13,8 @@
 
 <p align="center">
   <b>Transform raw tabular data into executive dashboards, statistical diagnostics, and contextual natural language business intelligence in seconds.</b>
+  <br><br>
+  👉 <b><a href="https://bi-assistant-app.streamlit.app/">Explore the Live Application</a></b> 👈
 </p>
 
 </div>
