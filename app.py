@@ -31,7 +31,7 @@ st.set_page_config(
 
 load_dotenv()
 
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 PALETTE = [
     "#F7B731", "#FF6B35", "#A78BFA", "#60A5FA",
     "#4ADE80", "#F472B6", "#34D399", "#FB923C",

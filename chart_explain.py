@@ -14,7 +14,7 @@ import hashlib
 from typing import Any, Dict, List, Optional
 
 import os
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
 
 # ─────────────────────────────────────────────
