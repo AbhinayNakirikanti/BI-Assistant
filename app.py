@@ -257,14 +257,45 @@ def inject_css() -> None:
         [data-testid="stFileUploader"] {
             width: 100% !important;
         }
-        [data-testid="stFileUploaderDropzone"] {
-            padding: 0.75rem 0.5rem !important;
+        [data-testid="stFileUploader"] section {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 0.6rem !important;
+            padding: 1rem 0.6rem !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1.5px dashed rgba(247, 183, 49, 0.3) !important;
             border-radius: 12px !important;
         }
-        [data-testid="stFileUploaderDropzone"] button {
+        [data-testid="stFileUploader"] section:hover {
+            border-color: rgba(247, 183, 49, 0.6) !important;
+        }
+        [data-testid="stFileUploader"] section button {
+            position: static !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0.4rem 1.1rem !important;
+            margin: 0 auto !important;
+            font-size: 0.82rem !important;
+            line-height: 1.3 !important;
             white-space: nowrap !important;
-            overflow: visible !important;
-            min-width: max-content !important;
+            border-radius: 8px !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #fff !important;
+        }
+        [data-testid="stFileUploaderDropzoneInstructions"] {
+            position: static !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            margin-top: 0.3rem !important;
+            font-size: 0.72rem !important;
+            color: #888 !important;
+            line-height: 1.4 !important;
         }
 
         /* ── Chat messages ──────────────────────── */
