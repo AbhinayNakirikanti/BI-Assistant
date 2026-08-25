@@ -31,7 +31,7 @@ st.set_page_config(
 
 load_dotenv()
 
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 PALETTE = [
     "#F7B731", "#FF6B35", "#A78BFA", "#60A5FA",
     "#4ADE80", "#F472B6", "#34D399", "#FB923C",
@@ -446,19 +446,53 @@ def get_gemini_client() -> Any:
 
     api_key = None
 
-    try:
-        api_key = st.secrets.get("GEMINI_API_KEY")
-    except Exception:
-        pass
+    # 1. Check user input in session state
+    if st.session_state.get("manual_gemini_api_key"):
+        api_key = str(st.session_state.manual_gemini_api_key).strip()
 
-    api_key = api_key or os.getenv("GEMINI_API_KEY")
+    # 2. Check Streamlit secrets (check direct keys and nested sections)
+    if not api_key:
+        try:
+            for k in ["GEMINI_API_KEY", "gemini_api_key", "GOOGLE_API_KEY", "google_api_key", "GEMINI_KEY"]:
+                if k in st.secrets:
+                    api_key = str(st.secrets[k]).strip()
+                    break
+            if not api_key:
+                for section in st.secrets:
+                    try:
+                        sec_val = st.secrets[section]
+                        if isinstance(sec_val, dict) or hasattr(sec_val, "get"):
+                            for k in ["GEMINI_API_KEY", "gemini_api_key", "GOOGLE_API_KEY", "google_api_key", "api_key"]:
+                                if k in sec_val:
+                                    api_key = str(sec_val[k]).strip()
+                                    break
+                    except Exception:
+                        pass
+                    if api_key:
+                        break
+        except Exception:
+            pass
 
+    # 3. Check environment variables
+    if not api_key:
+        for k in ["GEMINI_API_KEY", "gemini_api_key", "GOOGLE_API_KEY", "google_api_key"]:
+            val = os.getenv(k)
+            if val:
+                api_key = str(val).strip()
+                break
+
+    if not api_key:
+        return None
+
+    # Clean any quotes or extra whitespace
+    api_key = api_key.strip("'\"").strip()
     if not api_key:
         return None
 
     try:
         return genai.Client(api_key=api_key)
-    except Exception:
+    except Exception as e:
+        st.session_state["gemini_error"] = str(e)
         return None
 
 
@@ -791,13 +825,36 @@ def sidebar_filters(df: pd.DataFrame, file_name: str = "", file_size_kb: float =
                 '<span class="sb-status-dot sb-status-online"></span> Gemini Connected</div>',
                 unsafe_allow_html=True,
             )
+            with st.expander("⚙️ API Key Settings", expanded=False):
+                new_key = st.text_input(
+                    "Update Gemini Key",
+                    type="password",
+                    placeholder="Paste new AIzaSy... key",
+                    key="update_key_input",
+                )
+                if new_key:
+                    st.session_state.manual_gemini_api_key = new_key.strip()
+                    st.rerun()
         else:
             st.markdown(
                 '<div style="display:flex;align-items:center;font-size:.75rem;color:#f87171;font-weight:600">'
                 '<span class="sb-status-dot sb-status-offline"></span> Gemini Offline</div>',
                 unsafe_allow_html=True,
             )
-            st.caption("Add `GEMINI_API_KEY` to `.env`")
+            st.caption("Paste your API key below to activate:")
+            manual_key = st.text_input(
+                "Gemini API Key",
+                type="password",
+                placeholder="AIzaSy...",
+                key="sidebar_key_input",
+                help="Get a free key from https://aistudio.google.com",
+            )
+            if manual_key:
+                st.session_state.manual_gemini_api_key = manual_key.strip()
+                st.rerun()
+
+            if st.session_state.get("gemini_error"):
+                st.error(f"Error: {st.session_state['gemini_error']}", icon="⚠️")
 
         st.markdown(
             '<p style="font-size:0.6rem;color:#1e1e1e;text-align:center;margin-top:2rem;letter-spacing:0.06em">'

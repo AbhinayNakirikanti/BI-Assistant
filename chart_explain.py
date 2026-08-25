@@ -13,7 +13,8 @@ from __future__ import annotations
 import hashlib
 from typing import Any, Dict, List, Optional
 
-GEMINI_MODEL = "gemini-2.5-flash"
+import os
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 
 
 # ─────────────────────────────────────────────
