@@ -255,14 +255,16 @@ def inject_css() -> None:
 
         /* ── File uploader ──────────────────────── */
         [data-testid="stFileUploader"] {
-            background: rgba(247,183,49,0.03);
-            border: 1.5px dashed rgba(247,183,49,0.22);
-            border-radius: 14px;
-            padding: 0.5rem;
-            transition: border-color 0.3s ease;
+            width: 100% !important;
         }
-        [data-testid="stFileUploader"]:hover {
-            border-color: rgba(247,183,49,0.5);
+        [data-testid="stFileUploaderDropzone"] {
+            padding: 0.75rem 0.5rem !important;
+            border-radius: 12px !important;
+        }
+        [data-testid="stFileUploaderDropzone"] button {
+            white-space: nowrap !important;
+            overflow: visible !important;
+            min-width: max-content !important;
         }
 
         /* ── Chat messages ──────────────────────── */
@@ -1673,24 +1675,19 @@ def main() -> None:
         )
         c1, c2, c3 = st.columns([1, 2, 1])
         with c2:
-            st.markdown(
-                """
-                <div style="text-align:center;padding:4.5rem 2rem;
-                    background:rgba(255,255,255,0.02);
-                    border:1.5px dashed rgba(247,183,49,0.2);
-                    border-radius:18px;margin-top:1.5rem">
-                  <div style="font-size:3.5rem;margin-bottom:1rem">📂</div>
-                  <div style="font-size:1.25rem;font-weight:700;color:#fff;
-                      letter-spacing:-0.02em;margin-bottom:0.4rem">Drop your dataset here</div>
-                  <div style="color:#383838;font-size:0.88rem">
-                    Upload a CSV using the sidebar to get started</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
+            center_file = st.file_uploader(
+                "Drop your CSV dataset here",
+                type=["csv"],
+                key="center_uploader",
+                help="Upload a CSV dataset up to 200MB",
             )
-        sidebar_filters(pd.DataFrame())
-        _render_footer()
-        return
+            if center_file is not None:
+                uploaded_file = center_file
+
+        if uploaded_file is None:
+            sidebar_filters(pd.DataFrame())
+            _render_footer()
+            return
 
     file_bytes = uploaded_file.getvalue()
     file_id = dataframe_hash(file_bytes)
