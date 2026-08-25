@@ -1,0 +1,20 @@
+[server]
+maxUploadSize = 200
+headless = true
+enableCORS = true
+enableXsrfProtection = true
+port = 8501
+
+[browser]
+gatherUsageStats = false
+
+[runner]
+magicEnabled = true
+
+[theme]
+base = "dark"
+backgroundColor = "#07070a"
+secondaryBackgroundColor = "#0c0c10"
+primaryColor = "#F7B731"
+textColor = "#e8e8e8"
+font = "sans serif"
