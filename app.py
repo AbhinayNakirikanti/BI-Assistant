@@ -255,20 +255,14 @@ def inject_css() -> None:
 
         /* ── File uploader ──────────────────────── */
         [data-testid="stFileUploader"] {
-            background: rgba(247,183,49,0.03) !important;
-            border: 1.5px dashed rgba(247,183,49,0.22) !important;
-            border-radius: 14px !important;
-            transition: border-color 0.3s ease !important;
+            background: rgba(247,183,49,0.03);
+            border: 1.5px dashed rgba(247,183,49,0.22);
+            border-radius: 14px;
+            padding: 0.5rem;
+            transition: border-color 0.3s ease;
         }
         [data-testid="stFileUploader"]:hover {
-            border-color: rgba(247,183,49,0.5) !important;
-        }
-        [data-testid="stFileUploader"] section button {
-            background: rgba(255,255,255,0.08) !important;
-            border: 1px solid rgba(255,255,255,0.15) !important;
-            color: #fff !important;
-            font-size: 0.75rem !important;
-            letter-spacing: normal !important;
+            border-color: rgba(247,183,49,0.5);
         }
 
         /* ── Chat messages ──────────────────────── */
@@ -705,17 +699,6 @@ def init_state(file_id: str, df: pd.DataFrame) -> None:
 # -------------------------------------------------
 def sidebar_filters(df: pd.DataFrame, file_name: str = "", file_size_kb: float = 0.0) -> tuple[pd.DataFrame, bool]:
     with st.sidebar:
-        # Brand header
-        st.markdown(
-            """
-            <div class="sb-brand">
-              <div class="sb-brand-name">📊 BI <em>Assistant</em></div>
-              <div class="sb-brand-sub">Business Intelligence Platform</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
         # File info card (shown after upload)
         if file_name:
             st.markdown(
@@ -1653,12 +1636,21 @@ def _render_footer() -> None:
 def main() -> None:
     domain_str = ""
 
-    # Upload lives in sidebar (hidden label so branding shows cleanly)
+    # Upload lives in sidebar
     with st.sidebar:
+        st.markdown(
+            """
+            <div class="sb-brand">
+              <div class="sb-brand-name">📊 BI <em>Assistant</em></div>
+              <div class="sb-brand-sub">Business Intelligence Platform</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         uploaded_file = st.file_uploader(
             "Upload CSV file",
             type=["csv"],
-            label_visibility="collapsed",
+            help="Upload a CSV dataset up to 200MB",
         )
 
     if uploaded_file is None:
