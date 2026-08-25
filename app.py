@@ -825,36 +825,13 @@ def sidebar_filters(df: pd.DataFrame, file_name: str = "", file_size_kb: float =
                 '<span class="sb-status-dot sb-status-online"></span> Gemini Connected</div>',
                 unsafe_allow_html=True,
             )
-            with st.expander("⚙️ API Key Settings", expanded=False):
-                new_key = st.text_input(
-                    "Update Gemini Key",
-                    type="password",
-                    placeholder="Paste new AIzaSy... key",
-                    key="update_key_input",
-                )
-                if new_key:
-                    st.session_state.manual_gemini_api_key = new_key.strip()
-                    st.rerun()
         else:
             st.markdown(
                 '<div style="display:flex;align-items:center;font-size:.75rem;color:#f87171;font-weight:600">'
                 '<span class="sb-status-dot sb-status-offline"></span> Gemini Offline</div>',
                 unsafe_allow_html=True,
             )
-            st.caption("Paste your API key below to activate:")
-            manual_key = st.text_input(
-                "Gemini API Key",
-                type="password",
-                placeholder="AIzaSy...",
-                key="sidebar_key_input",
-                help="Get a free key from https://aistudio.google.com",
-            )
-            if manual_key:
-                st.session_state.manual_gemini_api_key = manual_key.strip()
-                st.rerun()
-
-            if st.session_state.get("gemini_error"):
-                st.error(f"Error: {st.session_state['gemini_error']}", icon="⚠️")
+            st.caption("Add `GEMINI_API_KEY` to Streamlit Secrets or `.env`")
 
         st.markdown(
             '<p style="font-size:0.6rem;color:#1e1e1e;text-align:center;margin-top:2rem;letter-spacing:0.06em">'
